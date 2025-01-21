@@ -2295,9 +2295,10 @@ asn_parse_signed_int64(u_char * data,
         ERROR_MSG(ebuf);
         return NULL;
     }
-    if (((int) asn_length > int64sizelimit) ||
-        (((int) asn_length == int64sizelimit) && *bufp != 0x00)) {
-        _asn_length_err(errpre, (size_t) asn_length, int64sizelimit);
+    if (asn_length == 0 ||
+        asn_length > int64sizelimit ||
+        (asn_length == int64sizelimit && *bufp != 0x00)) {
+        _asn_length_err(errpre, asn_length, int64sizelimit);
         return NULL;
     }
     *datalength -= (int) asn_length + (bufp - data);
